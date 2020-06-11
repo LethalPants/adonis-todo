@@ -18,10 +18,9 @@ class TodoController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({ request, auth, response, view }) {
     try {
-      const todos = await Todo.all();
-
+      const todos = await Todo.query().where("user_id", auth.user.id).fetch();
       return response.status(200).json({
         todos: todos.toJSON(),
       });
@@ -42,12 +41,12 @@ class TodoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
+  async store({ request, auth, response }) {
     try {
       const reqItem = request.only(["todo"]).todo;
-      console.log(reqItem);
       const todo = await Todo.create({
         todo: reqItem,
+        user_id: auth.user.id,
       });
 
       return response.status(201).json({
@@ -82,10 +81,18 @@ class TodoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, session, request, response }) {
+  async update({ params, auth, request, response }) {
     try {
       const reqItem = request.only(["todo", "completed"]);
       const todo = await Todo.findOrFail(params.id);
+
+      if (auth.user.id !== todo.user_id) {
+        throw {
+          status: 401,
+          message: "You don't have persmission to edit this post.",
+        };
+      }
+
       todo.todo = reqItem.todo;
       reqItem.todo ? (todo.todo = reqItem.todo) : null;
       reqItem.completed ? (todo.completed = reqItem.completed) : null;
@@ -111,9 +118,17 @@ class TodoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, session, request, response }) {
+  async destroy({ params, auth, session, request, response }) {
     try {
       const todo = await Todo.findOrFail(params.id);
+
+      if (auth.user.id !== todo.user_id) {
+        throw {
+          status: 401,
+          message: "You don't have persmission to edit this post.",
+        };
+      }
+
       await todo.delete();
       response.status(200).json({
         message: "Item successfully deleted.",

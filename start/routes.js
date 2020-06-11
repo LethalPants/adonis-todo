@@ -24,7 +24,9 @@ Route.group(() => {
   Route.patch("/:id/edit", "TodoController.update").as("todos.update");
 
   Route.delete("/:id/delete", "TodoController.destroy").as("todos.delete");
-}).prefix("api/v1/todos");
+})
+  .middleware(["auth"])
+  .prefix("api/v1/todos");
 
 /* User route */
 Route.group(() => {
@@ -33,4 +35,6 @@ Route.group(() => {
     .validator("Register");
 
   Route.post("/login", "LoginController.store").as("login.store");
-}).prefix("api/v1/users");
+})
+  .middleware(["guest"])
+  .prefix("api/v1/users");

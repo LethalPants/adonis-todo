@@ -18,9 +18,9 @@ class LoginController {
       }
     } catch (e) {
       console.log(e);
-      return response.status(err.status).json({
+      return response.status(e.status).json({
         message: "Something went wrong.",
-        error: err.message,
+        error: e.message,
       });
     }
   }
