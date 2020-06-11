@@ -35,17 +35,6 @@ class TodoController {
   }
 
   /**
-   * Render a form to be used for creating a new todo.
-   * GET todos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create({ request, response, view }) {}
-
-  /**
    * Create/save a new todo.
    * POST todos
    *
@@ -84,17 +73,6 @@ class TodoController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {}
-
-  /**
-   * Render a form to update an existing todo.
-   * GET todos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {}
 
   /**
    * Update todo details.

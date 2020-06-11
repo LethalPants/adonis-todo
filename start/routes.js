@@ -25,3 +25,12 @@ Route.group(() => {
 
   Route.delete("/:id/delete", "TodoController.destroy").as("todos.delete");
 }).prefix("api/v1/todos");
+
+/* User route */
+Route.group(() => {
+  Route.post("/register", "RegisterController.store")
+    .as("register.store")
+    .validator("Register");
+
+  Route.post("/login", "LoginController.store").as("login.store");
+}).prefix("api/v1/users");

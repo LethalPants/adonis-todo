@@ -1,93 +1,28 @@
-'use strict'
+"use strict";
+const User = use("App/Models/User");
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with registers
- */
 class RegisterController {
-  /**
-   * Show a list of all registers.
-   * GET registers
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new register.
-   * GET registers/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
-  /**
-   * Create/save a new register.
-   * POST registers
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
-  }
-
-  /**
-   * Display a single register.
-   * GET registers/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing register.
-   * GET registers/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update register details.
-   * PUT or PATCH registers/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a register with id.
-   * DELETE registers/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+  async store({ request, auth, response }) {
+    try {
+      // creatign a new user
+      let user = await User.create(request.all());
+      let token = await auth.generate(user);
+      Object.assign(user, token);
+      delete user["$attributes"].password;
+      delete user["$attributes"].created_at;
+      delete user["$attributes"].updated_at;
+      return response.status(201).json({
+        message: "User created.",
+        user,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(err.status).json({
+        message: "Something went wrong.",
+        error: err.message,
+      });
+    }
   }
 }
 
-module.exports = RegisterController
+module.exports = RegisterController;
