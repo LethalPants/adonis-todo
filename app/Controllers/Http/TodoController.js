@@ -20,8 +20,12 @@ class TodoController {
    */
   async index({ request, auth, response, view }) {
     try {
-      const todos = await Todo.query().where("user_id", auth.user.id).fetch();
+      let todos = await Todo.query()
+        .where("user_id", auth.user.id)
+        .orderBy("created_at", "desc")
+        .fetch();
       return response.status(200).json({
+        message: "Request completed successfully.",
         todos: todos.toJSON(),
       });
     } catch (e) {

@@ -1,0 +1,10 @@
+.uk-section {
+    height: 30vw;
+}
+
+.uk-section a.uk-button {
+    width: 10%;
+    background: #fff !important;
+    color: #1e87f0 !important;
+    margin: auto;
+}

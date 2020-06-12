@@ -26,9 +26,9 @@ Route.group(() => {
 
   Route.post("/new", "TodoController.store").as("todos.store");
 
-  Route.patch("/:id/edit", "TodoController.update").as("todos.update");
+  Route.patch("/:id/", "TodoController.update").as("todos.update");
 
-  Route.delete("/:id/delete", "TodoController.destroy").as("todos.delete");
+  Route.delete("/:id/", "TodoController.destroy").as("todos.delete");
 })
   .middleware(["auth"])
   .prefix("api/v1/todos");
@@ -40,6 +40,7 @@ Route.group(() => {
     .validator("Register");
 
   Route.post("/login", "LoginController.store").as("login.store");
+  Route.post("/logout", "LogoutController.store").as("logout.store");
 })
   .middleware(["guest"])
   .prefix("api/v1/users");

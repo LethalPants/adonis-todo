@@ -1,0 +1,7 @@
+.task-directory {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 89vh;
+    align-content: flex-start;
+}
