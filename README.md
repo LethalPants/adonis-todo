@@ -1,8 +1,12 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-## About The Project
+## Project Screenshots
+
+![Demo Gif][product-gif]
+
 
 ![Demo Screen Shot][product-screenshot]
+
 
 <!-- GETTING STARTED -->
 
@@ -60,6 +64,22 @@ Runs the app in the development mode.
 Open http://localhost:3000 to view it in the browser. Whenever you modify any of the source files inside the `/src` folder,
 the module bundler ([Webpack](http://webpack.github.io/)) will recompile the app on the fly and refresh all the connected browsers.
 
+
+## API DOCS
+
+All API requests are made to `/api/v1/`
+| resource      | description                       |type                       |
+|:--------------|:----------------------------------|:----------------------------------|
+| `/users/register`      | adds a new user to the database return the user details with `jwt`| `POST` |
+| `/users/login`    | returns object with user details and `jwt` | `POST` |
+| `/users/logout` | removes auth token from the database | `POST` |
+| `/todos`      | returns array of todos belonging to user | `GET` |
+| `/todos/new`  | creates a new todo | `POST` |
+| `/todos/:id` | edit existing todo | `PATCH` |
+| `/todos/:id` | delete todo | `DELETE` |
+ 
+
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/hatim-murtuza/
 [product-screenshot]: https://github.com/LethalPants/adonis-todo/blob/master/screenshot/dashboard.png
+[product-gif]: https://github.com/LethalPants/adonis-todo/blob/master/screenshot/app-demo-final.gif
