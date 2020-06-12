@@ -40,7 +40,6 @@ Route.group(() => {
     .validator("Register");
 
   Route.post("/login", "LoginController.store").as("login.store");
-  Route.post("/logout", "LogoutController.store").as("logout.store");
 })
   .middleware(["guest"])
   .prefix("api/v1/users");
@@ -54,3 +53,8 @@ Route.group(() => {
 })
   .middleware(["auth"])
   .prefix("api/v1/todos/categories");
+
+Route.post("/logout", "LogoutController.store")
+  .as("logout.store")
+  .middleware(["auth"])
+  .prefix("api/v1/users");
