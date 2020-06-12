@@ -12,7 +12,6 @@ export const fetchTask = () => {
         },
       })
       .then((res) => {
-        console.log("EH:", res);
         dispatch(getTask(res.data.todos));
       })
       .catch((err) => {

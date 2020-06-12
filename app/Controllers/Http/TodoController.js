@@ -23,6 +23,7 @@ class TodoController {
       let todos = await Todo.query()
         .where("user_id", auth.user.id)
         .orderBy("created_at", "desc")
+        .with("category")
         .fetch();
       return response.status(200).json({
         message: "Request completed successfully.",
@@ -54,7 +55,7 @@ class TodoController {
       });
       if (categories && categories.length > 0) {
         await newTodo.category().attach(categories);
-        newTodo.tags = await newTodo.category().fetch();
+        newTodo.category = await newTodo.category().fetch();
       }
 
       return response.status(201).json({

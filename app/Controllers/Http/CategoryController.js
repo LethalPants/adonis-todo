@@ -39,7 +39,7 @@ class CategoryController {
     });
   }
 
-  async update({ request, response, auth }) {
+  async update({ request, response, auth, params }) {
     try {
       const { name } = request.all();
       const category = await Todo.findOrFail(params.id);
@@ -67,18 +67,17 @@ class CategoryController {
     }
   }
 
-  async delete({ request, response }) {
+  async delete({ request, response, auth, params }) {
     try {
-      const { categories } = request.post();
-
-      if (auth.user.id !== todo.user_id) {
+      const cat = await Category.find(params.id);
+      if (auth.user.id !== cat.user_id) {
         throw {
           status: 401,
           message: "You don't have persmission to delete this item.",
         };
       }
 
-      await categories.delete();
+      await cat.delete();
 
       response.status(200).json({
         message: "Successfully deleted this tag.",

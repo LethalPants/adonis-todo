@@ -1,10 +1,25 @@
 textarea.uk-textarea {
-    resize: none;
-    padding: 20px;
+  resize: none;
+  padding: 20px;
 }
 .uk-card.uk-card-body {
-    width: 25%;
-    padding: 30px;
-    box-sizing: border-box;
-    margin: 10px;
+  width: 25%;
+  padding: 30px;
+  box-sizing: border-box;
+  margin: 10px;
+}
+
+.category {
+  height: 10vh;
+  padding: 1% !important;
+}
+
+.category-ta {
+  height: 7vh;
+  width: 63%;
+  overflow: hidden;
+}
+.category-button {
+  margin-left: 20px;
+  margin-top: 15px !important;
 }

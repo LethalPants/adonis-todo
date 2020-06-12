@@ -47,12 +47,10 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get("/", "CategoryController.index");
-  Route.get("/:id", "CategoryController.show").middleware(["findCategory"]);
+  Route.get("/:id", "CategoryController.show");
   Route.post("/", "CategoryController.store");
-  Route.patch("/:id", "CategoryController.update").middleware(["findCategory"]);
-  Route.delete("/:id", "CategoryController.delete").middleware([
-    "findCategory",
-  ]);
+  Route.patch("/:id", "CategoryController.update");
+  Route.delete("/:id", "CategoryController.delete");
 })
   .middleware(["auth"])
   .prefix("api/v1/todos/categories");

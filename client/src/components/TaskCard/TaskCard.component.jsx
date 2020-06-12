@@ -32,6 +32,9 @@ const TaskCard = ({ task, completeTask, deleteTask }) => {
       <p className={`${completed ? "uk-text-muted" : ""} desc-min`}>
         {task.todo}
       </p>
+      <p className="uk-text-muted uk-text-small">
+        {task.category ? task.category.map((tag) => `${tag.name} `) : null}
+      </p>
       {completed ? (
         <span
           uk-icon={"close"}

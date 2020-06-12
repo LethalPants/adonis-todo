@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   tasks: [],
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const TaskReducer = (state = INITIAL_STATE, action) => {
   let copyList = [];
   let delList = [];
   switch (action.type) {
@@ -38,4 +38,4 @@ const userReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default userReducer;
+export default TaskReducer;

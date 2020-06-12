@@ -1,18 +1,27 @@
 import React from "react";
 import "./PostTask.styles.css";
 
-const PostTask = ({ handleSubmit, handleChange, todo }) => {
+const PostTask = ({ handleSubmit, handleChange, description, cat }) => {
   return (
     <>
-      <div className="uk-card uk-card-primary uk-card-body">
-        <h4>New Todo</h4>
+      <div
+        className={`${
+          cat ? `category` : ""
+        } uk-card uk-card-primary uk-card-body`}
+      >
+        {cat ? null : <h4>New todo</h4>}
         <form onSubmit={handleSubmit}>
           <textarea
-            className="uk-textarea uk-form-large"
+            name={`${cat ? `categories` : `todo`}`}
+            className={`${cat ? `category-ta` : ``} uk-textarea uk-form-large`}
             onChange={handleChange}
-            value={todo}
+            value={description}
           ></textarea>
-          <button className="uk-button uk-button-default uk-margin-top">
+          <button
+            className={`${
+              cat ? `category-button` : ``
+            } uk-button uk-button-default uk-margin-top`}
+          >
             Submit
           </button>
         </form>
