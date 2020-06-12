@@ -44,15 +44,15 @@ Route.group(() => {
   .middleware(["guest"])
   .prefix("api/v1/users");
 
-Route.group(() => {
-  Route.get("/", "CategoryController.index");
-  Route.get("/:id", "CategoryController.show");
-  Route.post("/", "CategoryController.store");
-  Route.patch("/:id", "CategoryController.update");
-  Route.delete("/:id", "CategoryController.delete");
-})
-  .middleware(["auth"])
-  .prefix("api/v1/todos/categories");
+// Route.group(() => {
+//   Route.get("/", "CategoryController.index");
+//   Route.get("/:id", "CategoryController.show");
+//   Route.post("/", "CategoryController.store");
+//   Route.patch("/:id", "CategoryController.update");
+//   Route.delete("/:id", "CategoryController.delete");
+// })
+//   .middleware(["auth"])
+//   .prefix("api/v1/todos/categories");
 
 Route.post("/logout", "LogoutController.store")
   .as("logout.store")
