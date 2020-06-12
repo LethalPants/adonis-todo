@@ -38,6 +38,10 @@ class User extends Model {
   todos() {
     return this.hasMany("App/Models/Todo");
   }
+
+  categories() {
+    return this.hasMany("App/Models/Category");
+  }
 }
 
 module.exports = User;

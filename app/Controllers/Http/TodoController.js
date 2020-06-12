@@ -26,9 +26,9 @@ class TodoController {
       });
     } catch (e) {
       console.log(e);
-      return response.status(e.status).json({
+      return response.status(e.status || 500).json({
         message: "Something went wrong.",
-        error: e,
+        error: e || "We're working on fixing what went wrong.",
       });
     }
   }
@@ -43,21 +43,25 @@ class TodoController {
    */
   async store({ request, auth, response }) {
     try {
-      const reqItem = request.only(["todo"]).todo;
-      const todo = await Todo.create({
-        todo: reqItem,
+      const { todo, categories } = request.all();
+      const newTodo = await Todo.create({
+        todo,
         user_id: auth.user.id,
       });
+      if (categories && categories.length > 0) {
+        await newTodo.category().attach(categories);
+        newTodo.tags = await newTodo.category().fetch();
+      }
 
       return response.status(201).json({
         message: "Successfully added item.",
-        item: todo,
+        data: newTodo,
       });
     } catch (err) {
       console.log(err);
-      return response.status(err.status).json({
+      return response.status(err.status || 500).json({
         message: "Something went wrong.",
-        error: err,
+        error: err || "We're working on fixing what went wrong.",
       });
     }
   }
@@ -83,29 +87,35 @@ class TodoController {
    */
   async update({ params, auth, request, response }) {
     try {
-      const reqItem = request.only(["todo", "completed"]);
-      const todo = await Todo.findOrFail(params.id);
+      const { todo, completed, categories } = request.all();
+      const updateTodo = await Todo.findOrFail(params.id);
 
-      if (auth.user.id !== todo.user_id) {
+      if (auth.user.id !== updateTodo.user_id) {
         throw {
           status: 401,
           message: "You don't have persmission to edit this post.",
         };
       }
 
-      todo.todo = reqItem.todo;
-      reqItem.todo ? (todo.todo = reqItem.todo) : null;
-      reqItem.completed ? (todo.completed = reqItem.completed) : null;
-      await todo.save();
+      updateTodo.todo = todo || updateTodo.todo;
+      updateTodo.completed = completed || updateTodo.completed;
+      await updateTodo.save();
+
+      if (categories && categories.length > 0) {
+        await updateTodo.category().detach();
+        await updateTodo.category().attach(categories);
+        updateTodo.categories = await updateTodo.category().fetch();
+      }
+
       return response.status(200).json({
         message: "Successfully updated item.",
-        item: todo,
+        data: updateTodo,
       });
     } catch (err) {
       console.log(err);
-      return response.status(err.status).json({
+      return response.status(err.status || 500).json({
         message: "Something went wrong.",
-        error: err.message,
+        error: err.message || "We're working on fixing what went wrong.",
       });
     }
   }
@@ -125,7 +135,7 @@ class TodoController {
       if (auth.user.id !== todo.user_id) {
         throw {
           status: 401,
-          message: "You don't have persmission to edit this post.",
+          message: "You don't have persmission to delete this post.",
         };
       }
 

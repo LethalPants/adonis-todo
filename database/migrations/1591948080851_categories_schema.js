@@ -3,28 +3,25 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class TodoSchema extends Schema {
+class CategoriesSchema extends Schema {
   up() {
-    this.create("todos", (table) => {
+    this.create("categories", (table) => {
       table.increments();
-      table.timestamps();
-
       table.integer("user_id").unsigned();
-
       table
         .foreign("user_id")
         .references("id")
         .inTable("users")
         .onDelete("cascade");
 
-      table.string("todo").notNullable();
-      table.boolean("completed").default(false);
+      table.string("name").notNullable().default("General");
+      table.timestamps();
     });
   }
 
   down() {
-    this.drop("todos");
+    this.drop("categories");
   }
 }
 
-module.exports = TodoSchema;
+module.exports = CategoriesSchema;

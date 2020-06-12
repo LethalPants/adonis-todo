@@ -16,6 +16,11 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
+Route.get("/api/v1", ({ response }) => {
+  return response.json({ message: "Hello" });
+});
+
+/* Todo Routes */
 Route.group(() => {
   Route.get("/", "TodoController.index").as("todos.index");
 
@@ -38,3 +43,15 @@ Route.group(() => {
 })
   .middleware(["guest"])
   .prefix("api/v1/users");
+
+Route.group(() => {
+  Route.get("/", "CategoryController.index");
+  Route.get("/:id", "CategoryController.show").middleware(["findCategory"]);
+  Route.post("/", "CategoryController.store");
+  Route.patch("/:id", "CategoryController.update").middleware(["findCategory"]);
+  Route.delete("/:id", "CategoryController.delete").middleware([
+    "findCategory",
+  ]);
+})
+  .middleware(["auth"])
+  .prefix("api/v1/todos/categories");
